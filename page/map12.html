@@ -18,6 +18,16 @@
     <!-- leaflet-heatmap.js -->
     <script src="https://cdn.jsdelivr.net/npm/leaflet-heatmap@1.0.0/leaflet-heatmap.js"></script>
     <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+
+        #mapid {
+            height: 100%;
+        }
         .cluster {
             border: 2px solid grey;
             border-radius: 50%;
@@ -40,7 +50,7 @@
     </style>
 </head>
 <body>
-<div id="mapid" style="width: 600px; height: 400px;"></div>
+<div id="mapid"></div>
 <script>
 //中心點
 var mymap = L.map('mapid').setView([25.0730,121.3724], 7);

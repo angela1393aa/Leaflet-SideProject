@@ -20,9 +20,21 @@
     <!-- Leaflet.Control.DetailLevel使您可以在大型顯示器中查看更高縮放級別的圖塊。 -->
     <script src="leaflet.control.detaillevel.js"></script>
     <!-- 要用npm -->
+    <style>
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+      }
+
+      #mapid {
+        height: 100%;
+      }
+    </style>
   </head>
   <body>
-    <div id="mapid" style="width: 600px; height: 400px"></div>
+    <div id="mapid"></div>
     <script>
       var mymap = L.map("mapid").setView([25.073, 121.3724], 13);
       // https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png一般地圖

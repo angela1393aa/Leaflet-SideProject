@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <style>
-        #lmap {
+        #mapid {
             height: 100%;
         }
         html,
@@ -20,9 +20,9 @@
     </style>
 </head>
 <body>
-<div id="lmap" style="width: 600px; height: 400px;"></div>
+<div id="mapid" style="width: 600px; height: 400px;"></div>
 <script>
-var LMap = L.map(document.getElementById('lmap'), {
+var mymap = L.map(document.getElementById('mapid'), {
     center: [23.5, 121],
     zoom: 7,
     crs: L.CRS.EPSG3857,
@@ -30,11 +30,11 @@ var LMap = L.map(document.getElementById('lmap'), {
 L.tileLayer('https://wmts.nlsc.gov.tw/wmts/EMAP/default/GoogleMapsCompatible/{z}/{y}/{x}', {
     maxZoom: 18,
     id: 'EMAP'
-}).addTo(LMap);
+}).addTo(mymap);
 L.tileLayer('https://wmts.nlsc.gov.tw/wmts/MB5000/default/GoogleMapsCompatible/{z}/{y}/{x}', {
     maxZoom: 18,
     id: 'MB5000'
-}).addTo(LMap);
+}).addTo(mymap);
 </script>
 </body>
 </html>

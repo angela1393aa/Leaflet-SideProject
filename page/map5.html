@@ -18,16 +18,23 @@
     <!-- 引入GeoJSON -->
     <script type="text/javascript" src="geoJSON5.js"></script>
     <style>
-      #map {
-        height: 90vh;
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+      }
+
+      #mapid {
+        height: 100%;
       }
     </style>
   </head>
   <body>
-    <div id="map"></div>
+    <div id="mapid"></div>
 
     <script>
-      var map = L.map("map").setView([37.8, -96], 4);
+      var mymap = L.map("mapid").setView([37.8, -96], 4);
       //縣市分區
       var tiles = L.tileLayer(
         "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
@@ -36,7 +43,7 @@
           attribution:
             '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         }
-      ).addTo(map);
+      ).addTo(mymap);
       function getColor(d) {
         return d > 1000
           ? "#800026"
@@ -64,7 +71,7 @@
           fillOpacity: 0.7,
         };
       }
-      L.geoJson(statesData, { style: style }).addTo(map);
+      L.geoJson(statesData, { style: style }).addTo(mymap);
     </script>
   </body>
 </html>

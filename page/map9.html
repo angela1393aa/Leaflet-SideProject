@@ -11,21 +11,21 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
     <style>
-        #lmap {
-            height: 100%;
-        }
         html,
         body {
-            height: 100%;
-            margin: 0;
             padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+        #mapid {
+            height: 100%;
         }
     </style>
 </head>
 <body>
-<div id="lmap" style="width: 600px; height: 400px;"></div>
+<div id="mapid" style="width: 600px; height: 400px;"></div>
 <script>
-var LMap = L.map(document.getElementById('lmap'), {
+var mymap = L.map(document.getElementById('mapid'), {
     center: [23.5, 121],  // 中心點
     zoom: 7,  // 縮放層級
     crs: L.CRS.EPSG3857,  // 座標系統
@@ -33,10 +33,10 @@ var LMap = L.map(document.getElementById('lmap'), {
 L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
             maxZoom: 18,
             id: 'mapbox.streets'
-        }).addTo(LMap);  // 新增底圖
+        }).addTo(mymap);  // 新增底圖
 //建立一個FeatureGroup，用以存放繪圖的圖資
 var drawItem = new L.FeatureGroup();
-LMap.addLayer(drawItem);
+mymap.addLayer(drawItem);
 //新增繪圖的控制項
 var option = {
     position: 'topleft',
@@ -46,20 +46,20 @@ var option = {
     },
 };
 var drawControl = new L.Control.Draw(option);
-LMap.addControl(drawControl);
+mymap.addControl(drawControl);
 //新增繪圖的事件，在繪圖建立完的時候發生的callback function
-LMap.on(L.Draw.Event.CREATED, function (e) {
+mymap.on(L.Draw.Event.CREATED, function (e) {
      var layer = e.layer;
      drawItem.addLayer(layer);  // 必須將畫完的圖層加入
      console.log(arguments);
 });
 // 另一種寫法，以字串的方式寫事件名稱
-LMap.on('draw:created', function (e) {
+mymap.on('draw:created', function (e) {
      var layer = e.layer;
      console.log(arguments);
      drawItem.addLayer(layer);            
 });
-LMap.on(L.Draw.Event.CREATED, function (e) {
+mymap.on(L.Draw.Event.CREATED, function (e) {
     var layer = e.layer;
     var type = e.layerType;
     drawItem.addLayer(layer);

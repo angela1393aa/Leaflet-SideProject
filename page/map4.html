@@ -16,38 +16,45 @@
       crossorigin=""
     ></script>
     <style>
-      #map {
-        height: 600px;
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+      }
+
+      #mapid {
+        height: 100%;
       }
     </style>
   </head>
   <body>
-    <div id="map"></div>
+    <div id="mapid"></div>
     <script>
-      var map = L.map("map").setView([25.073, 121.3724], 13);
+      var mymap = L.map("mapid").setView([25.073, 121.3724], 13);
       //地型地圖
       L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
         maxZoom: 19,
         attribution:
           '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
-      }).addTo(map);
+      }).addTo(mymap);
       //一旦用戶同意分享它的位置並且瀏覽器檢測到它，地圖就會設置它的視圖。
-      map.locate({ setView: true, maxZoom: 16 });
+      mymap.locate({ setView: true, maxZoom: 16 });
       //成功
       function onLocationFound(e) {
         var radius = e.accuracy;
         L.marker(e.latlng)
-          .addTo(map)
+          .addTo(mymap)
           .bindPopup("您在距此點 " + radius + " 米範圍內")
           .openPopup();
-        // L.circle(e.latlng, radius).addTo(map);
+        L.circle(e.latlng, radius).addTo(mymap);
       }
-      map.on("locationfound", onLocationFound);
+      mymap.on("locationfound", onLocationFound);
       //失敗
       function onLocationError(e) {
         alert(e.message);
       }
-      map.on("locationerror", onLocationError);
+      mymap.on("locationerror", onLocationError);
     </script>
   </body>
 </html>
