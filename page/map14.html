@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet-總泰圖層.控制器</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+    integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+    crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+    integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+    crossorigin=""></script>
+</head>
+<body>
+<div id="mapid" style="width: 800px; height: 1000px;"></div>
+<script>
+	var mymap = L.map('mapid').setView([25.0730,121.3724], 13);
+	//創建一個圖標
+	var greenIcon = L.icon({
+    iconUrl: '—Pngtree—pushpin.png',
+    iconSize:     [100, 100], // size of the icon
+    iconAnchor:   [40, 94], // point of the icon which will correspond to marker's location圖標的點將對應於標記的位置
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor彈出窗口應相對於 iconAnchor 打開的點
+    });
+	L.tileLayer('https://tile.osm.ch/switzerland/{z}/{x}/{y}.png', {
+		maxZoom: 17,
+        errorTileUrl: 'http://bpic.588ku.com/element_pic/16/12/07/706f7ff4f15725b17ba1d30d384e6468.jpg',
+        attribution: '© OpenStreetMap'
+	}).addTo(mymap);
+//判斷經緯度
+let arr3 = [];
+mymap.on('click', function (e) {
+    arr3.push([e.latlng.lat, e.latlng.lng])
+    console.log(arr3)
+});
+//在地圖上放置帶有此圖標的標記
+L.marker([25.0730,121.3724], {
+    draggable:true,
+    autoPan:true,
+    autoPanPadding: [100, 100],
+    icon: greenIcon
+}).addTo(mymap).bindTooltip("I am a green leaf.");
+
+var imageUrl = 'https://api.cloudrf.com/users/40003/0725084624_111Y-SCD-BTS-B16C16_SCD07tx-SCD01.3857.png',
+imageBounds = [[24.0762,120.6867], [25.31012,121.9206]];
+imageUrlLayer = L.imageOverlay(imageUrl, imageBounds, {
+    opacity:0.7
+}).addTo(mymap);
+
+//道路圖層
+road = L.polyline([[25.71264868398435, 120.28450012207031],[25.72837380478485, 120.28450012207031],[22.723307108275556, 120.28604507446288]])
+//校地範圍
+school = L.polygon([
+    [[22.72979877936457, 120.27806282043456],[22.732134122265894, 120.28162479400635],[22.73252993914425, 120.29046535491942],[22.73684426881351, 120.29025077819824],[22.737715034437908, 120.28591632843016],[22.735617271475324, 120.28505802154541],[22.73767545430257, 120.2777624130249],[22.733717382905326, 120.27643203735352],[22.733638220308723, 120.27523040771484],[22.72979877936457, 120.27806282043456]], 
+    [[22.731461230943435, 120.27870655059813],[22.732292449154702, 120.28007984161376],[22.733163243766654, 120.27900695800781],[22.73264868398435, 120.27767658233643],[22.731461230943435, 120.27870655059813]]
+])
+//底圖
+mapbox = L.tileLayer('https://tile.osm.ch/switzerland/{z}/{x}/{y}.png', {
+		maxZoom: 17,
+        errorTileUrl: 'http://bpic.588ku.com/element_pic/16/12/07/706f7ff4f15725b17ba1d30d384e6468.jpg',
+        attribution: '© OpenStreetMap'
+	}).addTo(mymap);
+//底圖
+topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+		maxZoom: 17,
+        attribution: '© OpenStreetMap'
+	}).addTo(mymap);
+//管理圖層控制器
+L.control.layers({
+    "topo map": topo,
+    "mapbox": mapbox,
+},{
+    "road": road,
+    "nuk": school
+}).addTo(mymap);
+L.control.scale({
+    maxWidth: 200,//單位是 pixel
+    metric: true,//是否顯示公制單位(m, km)
+    updateWhenIdle: true,//是否更新
+}).addTo(mymap);
+
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Leaflet Side Project</title>
+    <!-- google fonts -->
+    <link
+      href="https://fonts.googleapis.com/css?family=Noto+Sans+TC:100,300,400,500,700,900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        box-sizing: border-box;
+        font-family: "Noto Sans TC", "Microsoft JhengHei", PingFang, STHeiti,
+          sans-serif, serif;
+      }
+      body {
+        background-color: rgba(204, 204, 204, 0.381);
+        text-align: center;
+      }
+      .wrap {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        max-width: 1200px;
+        margin: auto;
+      }
+      .item {
+        margin: 20px;
+        transform: scale(1);
+        transition: 0.5s;
+        box-shadow: 2px 3px 5px rgb(133, 132, 132);
+      }
+      .item:hover {
+        transform: scale(1.1);
+      }
+      .pic img {
+        width: 100%;
+        vertical-align: middle;
+      }
+      .txt {
+        background-color: #fff;
+        padding: 10px 0;
+      }
+      .item a {
+        color: #aaa;
+        text-decoration: none;
+      }
+      @media screen and (max-width: 768px) {
+        .wrap {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Leaflet Side Project</h1>
+    <div class="wrap">
+      <div class="item">
+        <a href="./page/map.html">
+          <div class="pic">
+            <img src="/images/map.jpg" alt="Leaflet創建移動圖標" />
+          </div>
+          <div class="txt">
+            <p>Leaflet創建移動圖標</p>
+          </div>
+        </a>
+      </div>
+      <div class="item">
+        <a href="./page/map1.html">
+          <div class="pic">
+            <img src="/images/map1.jpg" alt="Leaflet圖層控制器比例尺" />
+          </div>
+          <div class="txt">
+            <p>Leaflet圖層控制器比例尺</p>
+          </div>
+        </a>
+      </div>
+      <div class="item">
+        <a href="./page/map2.html">
+          <div class="pic">
+            <img src="/images/map2.jpg" alt="Leaflet圖片圖層影片圖層" />
+          </div>
+          <div class="txt">
+            <p>Leaflet圖片圖層影片圖層</p>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="item">
+        <a href="./page/map3.html">
+          <div class="pic">
+            <img src="/images/map3.jpg" alt="Leaflet圓、線、面圖層" />
+          </div>
+          <div class="txt">
+            <p>Leaflet圓、線、面圖層</p>
+          </div>
+        </a>
+      </div>
+      <div class="item">
+        <a href="./page/map4.html">
+          <div class="pic">
+            <img src="/images/map4.jpg" alt="Leaflet定位" />
+          </div>
+          <div class="txt">
+            <p>Leaflet定位</p>
+          </div>
+        </a>
+      </div>
+      <div class="item">
+        <a href="./page/map5.html">
+          <div class="pic">
+            <img src="/images/map5.jpg" alt="Leaflet-GeoJSON區域變色" />
+          </div>
+          <div class="txt">
+            <p>Leaflet-GeoJSON區域變色</p>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="item">
+        <a href="./page/map6.html">
+          <div class="pic">
+            <img src="/images/map6.jpg" alt="Leaflet-GeoJSON線" />
+          </div>
+          <div class="txt">
+            <p>Leaflet-GeoJSON線</p>
+          </div>
+        </a>
+      </div>
+      <div class="item">
+        <a href="./page/map7.html">
+          <div class="pic">
+            <img src="/images/map7.jpg" alt="Leaflet.Control.DetailLevel" />
+          </div>
+          <div class="txt">
+            <p>Leaflet.Control.DetailLevel</p>
+          </div>
+        </a>
+      </div>
+      <div class="item">
+        <a href="./page/map8.html">
+          <div class="pic">
+            <img src="/images/map8.jpg" alt="Leaflet MarkerCluster-群聚圖" />
+          </div>
+          <div class="txt">
+            <p>Leaflet MarkerCluster-群聚圖</p>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="item">
+        <a href="./page/map9.html">
+          <div class="pic">
+            <img src="/images/map9.jpg" alt="leaflet.draw" />
+          </div>
+          <div class="txt">
+            <p>leaflet.draw</p>
+          </div>
+        </a>
+      </div>
+      <div class="item">
+        <a href="./page/map10.html">
+          <div class="pic">
+            <img src="/images/map10.jpg" alt="Leaflet疊圖" />
+          </div>
+          <div class="txt">
+            <p>Leaflet疊圖</p>
+          </div>
+        </a>
+      </div>
+      <div class="item">
+        <a href="./page/map11.html">
+          <div class="pic">
+            <img src="/images/map11.jpg" alt="多層次收合選單" />
+          </div>
+          <div class="txt">
+            <p>空</p>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="item">
+        <a href="./page/map12.html">
+          <div class="pic">
+            <img src="/images/map12.jpg" alt="Leaflet heatmap demo熱區圖" />
+          </div>
+          <div class="txt">
+            <p>Leaflet heatmap demo熱區圖</p>
+          </div>
+        </a>
+      </div>
+      <div class="item">
+        <a href="./page/map13.html">
+          <div class="pic">
+            <img
+              src="/images/map13.jpg"
+              alt="Leaflet MovingMarker demo讓Marker會彈跳還會動！"
+            />
+          </div>
+          <div class="txt">
+            <p>Leaflet MovingMarker demo</p>
+          </div>
+        </a>
+      </div>
+      <div class="item">
+        <a href="./page/map14.html">
+          <div class="pic">
+            <img src="/images/map14.jpg" alt="Leaflet-總泰圖層.控制器" />
+          </div>
+          <div class="txt">
+            <p>Leaflet-總泰圖層.控制器</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </body>
+</html>

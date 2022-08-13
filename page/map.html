@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaflet創建移動圖標</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+      integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+      integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+      crossorigin=""
+    ></script>
+  </head>
+  <body>
+    <div id="mapid" style="width: 100vw; height: 90vh"></div>
+    <script>
+      var mymap = L.map("mapid").setView([25.073, 121.3724], 13);
+      L.tileLayer("https://tile.osm.ch/switzerland/{z}/{x}/{y}.png", {
+        maxZoom: 17,
+        errorTileUrl:
+          "http://bpic.588ku.com/element_pic/16/12/07/706f7ff4f15725b17ba1d30d384e6468.jpg",
+        attribution: "© OpenStreetMap",
+      }).addTo(mymap);
+      //創建一個圖標
+      var greenIcon = L.icon({
+        iconUrl: "—Pngtree—pushpin.png",
+        iconSize: [100, 100], // size of the icon
+        iconAnchor: [40, 94], // point of the icon which will correspond to marker's location圖標的點將對應於標記的位置
+        popupAnchor: [-3, -76], // point from which the popup should open relative to the iconAnchor彈出窗口應相對於 iconAnchor 打開的點
+      });
+      L.marker([25.073, 121.3724], {
+        draggable: true,
+        autoPan: true,
+        autoPanPadding: [100, 100],
+        icon: greenIcon,
+      })
+        .addTo(mymap)
+        .bindTooltip("I am a green leaf.");
+    </script>
+  </body>
+</html>

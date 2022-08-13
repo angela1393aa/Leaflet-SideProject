@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet MovingMarker demo讓Marker會彈跳還會動！</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+    <!-- bouncemarker.js -->
+    <script src="http://maximeh.github.io/leaflet.bouncemarker/bouncemarker.js"></script>
+    <!-- Leaflet.MovingMarker -->
+    <script src="http://ewoken.github.io/Leaflet.MovingMarker/MovingMarker.js"></script>
+    <style>
+        html,
+        body {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+        }
+
+        #mapid {
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+<div id="mapid"></div>
+<script>
+//中心點
+var mymap = L.map('mapid').setView([25.0730,121.3724], 7);
+//OSM的底圖
+L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	maxZoom: 17,
+    attribution: 'Map data: {attribution.OpenStreetMap}, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+}).addTo(mymap);
+
+//bouncemarker
+const marker = new L.Marker([23.5, 121], {
+    bounceOnAdd: true,//標記點建立時是否彈跳，預設為false
+    bounceOnAddOptions: { 
+        duration: 1500, //彈跳時間(毫秒)，預設為1000毫秒(1秒)
+        height: 200, //彈跳高度，預設從y座標最高處開始落下
+        loop: 1 //動畫重複播放次數，預設為１次
+    }//彈跳設定
+}).addTo(mymap);
+marker.on('click', function () {
+    marker.bounce({ duration: 500, height: 200, loop: 1 });
+});
+
+// Leaflet.MovingMarker
+
+// 移動路徑的格式:二維陣列
+const route = [[23, 120.3508], [25.15, 121.523333]];
+//點擊地圖建立移動的路徑
+// let arr3 = [];
+// mymap.on('click', function (e) {
+//     arr3.push([e.latlng.lat, e.latlng.lng])
+//     console.log(arr3)
+// });
+let arr3 = [
+    [25.730632525531913, 120.69506835937501],
+    [24.79670834894575, 121.32202148437501],
+    [24.066528197726857, 120.45410156250001],
+    [23.785344805941214, 121.14624023437501]];
+//傳入要移動的路徑
+function Move(arr3) {
+    const marker = L.Marker.movingMarker(arr3,
+        [1000, 3000, 500, 100], { autostart: true }).addTo(mymap);
+    L.polyline(arr3, { color: 'red' }).addTo(mymap);
+    mymap.fitBounds(arr3);
+    // 移動結束時觸發事件
+    marker.on('end', function () {
+        marker.bindPopup('<p>環島結束囉！</p>', { closeOnClick: false }).openPopup();
+    });
+}
+Move(arr3);
+</script>
+</body>
+</html>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaflet圖層控制器比例尺</title>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css"
+      integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js"
+      integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg=="
+      crossorigin=""
+    ></script>
+  </head>
+  <body>
+    <div id="mapid" style="width: 100vw; height: 90vh"></div>
+    <script>
+      var mymap = L.map("mapid").setView(
+        [22.73264868398435, 120.28450012207031],
+        13
+      );
+      //圖層
+      road = L.polyline([
+        [22.73264868398435, 120.28450012207031],
+        [22.72837380478485, 120.28450012207031],
+        [22.723307108275556, 120.28604507446288],
+      ]).addTo(mymap);
+      school = L.polygon([
+        [
+          [22.72979877936457, 120.27806282043456],
+          [22.732134122265894, 120.28162479400635],
+          [22.73252993914425, 120.29046535491942],
+          [22.73684426881351, 120.29025077819824],
+          [22.737715034437908, 120.28591632843016],
+          [22.735617271475324, 120.28505802154541],
+          [22.73767545430257, 120.2777624130249],
+          [22.733717382905326, 120.27643203735352],
+          [22.733638220308723, 120.27523040771484],
+          [22.72979877936457, 120.27806282043456],
+        ],
+        [
+          [22.731461230943435, 120.27870655059813],
+          [22.732292449154702, 120.28007984161376],
+          [22.733163243766654, 120.27900695800781],
+          [22.73264868398435, 120.27767658233643],
+          [22.731461230943435, 120.27870655059813],
+        ],
+      ]).addTo(mymap);
+      //底圖
+      mapbox = L.tileLayer("https://tile.osm.ch/switzerland/{z}/{x}/{y}.png", {
+        maxZoom: 17,
+        errorTileUrl:
+          "http://bpic.588ku.com/element_pic/16/12/07/706f7ff4f15725b17ba1d30d384e6468.jpg",
+        attribution: "© OpenStreetMap",
+      }).addTo(mymap);
+      topo = L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+        maxZoom: 17,
+        attribution: "© OpenStreetMap",
+      }).addTo(mymap);
+      //管理圖層控制器
+      L.control
+        .layers(
+          {
+            "topo map": topo,
+            mapbox: mapbox,
+          },
+          {
+            road: road,
+            nuk: school,
+          }
+        )
+        .addTo(mymap);
+      // 比例尺
+      L.control
+        .scale({
+          maxWidth: 200,
+          metric: true,
+          updateWhenIdle: true,
+        })
+        .addTo(mymap);
+    </script>
+  </body>
+</html>

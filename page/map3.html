@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaflet圓、線、面圖層</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+      integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+      integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+      crossorigin=""
+    ></script>
+  </head>
+  <body>
+    <div id="mapid" style="width: 100vw; height: 90vh"></div>
+    <script>
+      var mymap = L.map("mapid").setView([25.073, 121.3724], 8);
+      L.tileLayer("https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png", {
+        maxZoom: 17,
+        attribution: "© OpenStreetMap",
+      }).addTo(mymap);
+      //Circle圓形圖層
+      var circle = L.circle([25.073, 120.3724], {
+        color: "red",
+        fillColor: "#f03",
+        fillOpacity: 0.5,
+        radius: 500, //半徑
+      }).addTo(mymap);
+      circle.bindPopup("I am a circle.");
+      // CircleMarker圓形圖層
+      L.circleMarker([25.073, 120.3724], { radius: 20 }).addTo(mymap);
+      //Polyline線圖層
+      L.polyline([
+        [
+          [25.073, 120.3724],
+          [22.72837380478485, 120.28450012207031],
+          [22.723307108275556, 120.28604507446288],
+        ],
+      ]).addTo(mymap);
+      //Polygon面圖層
+      var polygon = L.polygon([
+        [25.073, 121.3724],
+        [24.073, 120.3724],
+        [25.073, 120.3724],
+      ]).addTo(mymap);
+      polygon.bindPopup("I am a polygon.");
+      //Rectangle矩形圖層2點
+      L.rectangle([
+        [22.727344647244575, 120.27111053466797],
+        [22.739219071089853, 120.29419898986816],
+      ]).addTo(myMap);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet MarkerCluster-群聚圖</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.4.0/dist/leaflet.js" integrity="sha512-QVftwZFqvtRNi0ZyCtsznlKSWOStnDORoefr1enyq5mVL4tmKB3S/EnC3rRJcxCPavG10IcrVGSmPh6Qw5lwrg==" crossorigin=""></script>
+    <!-- Leaflet MarkerCluster -->
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <!-- MarkerCluster.Default.css -->
+    <!-- <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" /> -->
+    <!-- MarkerCluster.css自定義群聚icon -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <style>
+        .cluster {
+            border: 2px solid grey;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .cluster.cluster-green {
+            background-color: green;
+            /* border: 2px solid green; */
+        }
+        .cluster.cluster-yellow {
+            background-color: yellow;
+            /* border: 2px solid yellow; */
+        }
+        .cluster.cluster-red {
+            background-color: red;
+            /* border: 2px solid red; */
+        }
+    </style>
+</head>
+<body>
+<div id="mapid" style="width: 600px; height: 400px;"></div>
+<script>
+//中心點
+var mymap = L.map('mapid').setView([25.0730,121.3724], 7);
+//OSM的底圖
+L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+	maxZoom: 17,
+    attribution: 'Map data: {attribution.OpenStreetMap}, <a href="http://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+}).addTo(mymap);
+
+//群聚改色
+var markers = L.markerClusterGroup({
+    iconCreateFunction: function (cluster) {
+        const number = cluster.getChildCount();
+        return L.divIcon({ html: number, className: 
+            'cluster cluster-yellow', iconSize: L.point(25, 25) });
+    }
+});
+// 數量判斷改色
+function IconLogic(number) { 
+    let className = 'cluster';
+    let point;
+    if (number < 100) {
+        className += ' cluster-green';
+        point = L.point(25, 25);
+    } else if (number < 200) {
+        className += ' cluster-yellow';
+        point = L.point(30, 30);
+    } else {
+        className += ' cluster-red';
+        point = L.point(35, 35);
+    }
+    return {
+        className: className,
+        point: point
+    }
+}
+
+//隨機產生很多點
+//隨機在最小值(min)與最大值(max)之間產生數值
+function random(min, max) {
+    return Math.random() * (max - min) + min;
+}
+//新增 CreatePoint 在固定範圍內產生隨機經緯度的點，並存進陣列中。
+let arr = [];
+function CreatePoint(count) {　　// count為產生的點數量
+    for (let i = 0; i < count; i++) {
+        let longitude = random(120.5, 121.4);  // 經度介於120.5~121.4
+        let latitude = random(23, 24.6);  // 緯度介於23~24.6
+        arr.push({ x: longitude, y: latitude });
+    }
+}
+CreatePoint(1500);
+console.log(arr);
+//將arr陣列跑迴圈，把所有點秀在地圖上。
+// arr.map(item => L.marker([item.y, item.x]).addTo(mymap));
+
+// Leaflet MarkerCluster
+//新增一個L.markerClusterGroup，它可以存入許多座標點，並且讓它們群聚起來
+var markers = L.markerClusterGroup({
+    iconCreateFunction: function (cluster) {
+        const number = cluster.getChildCount();
+        let icon = IconLogic(number);
+        return L.divIcon({ html: number, className: icon.className, iconSize: icon.point })}
+})
+
+//把marker加入L.markerClusterGroup中，而不是直接加入地圖
+arr.map(item => L.marker(new L.LatLng(item.y, item.x), {
+        draggable:true,
+        autoPan:true,
+        autoPanPadding: [100, 100],
+    })  // 新增Marker
+    .bindPopup(`<p>經度: ${item.x}</p><p>緯度: ${item.y}</p>`))  // 資訊視窗
+    .forEach(item => markers.addLayer(item));  // 把marker加入 L.markerClusterGroup中
+// 將剛剛存放所有點的L.markerClusterGroup加入地圖中
+mymap.addLayer(markers);
+// 在L.markerClusterGroup物件上綁定clusterclick，可以幫群聚點新增點擊事件
+markers.on('clusterclick', function (e) {
+    const number = e.layer.getAllChildMarkers().length;  
+    console.log('群聚數量: ' + number);
+});
+//e.layer.getConvexHull()可以取得群聚點計算該區塊群聚數量的邊界
+var polySelected;
+markers.on('clusterclick', function (e) {
+    const number = e.layer.getAllChildMarkers().length;
+    if (polySelected) {  // 如果有選取的邊界存在，先清除
+        mymap.removeLayer(polySelected);
+    }    
+    polySelected = L.polygon(e.layer.getConvexHull());  // 繪出邊界
+    mymap.addLayer(polySelected);    
+    console.log(e.layer.getConvexHull());
+    console.log('群聚數量: ' + number);
+});
+//e.layer.spiderfy()可以劃出群聚點與群聚內各個點的連線，俗稱蜘蛛網
+var polySelected;
+markers.on('clusterclick', function (e) {
+    const number = e.layer.getAllChildMarkers().length;
+    if (number < 100) {  // 群聚數量小於100才繪製蜘蛛網
+        e.layer.spiderfy();
+    }
+    if (polySelected) {
+        mymap.removeLayer(polySelected);
+    }
+    polySelected = L.polygon(e.layer.getConvexHull())
+    mymap.addLayer(polySelected);
+    console.log(e.layer.getConvexHull());
+    console.log('群聚數量: ' + number);
+});
+</script>
+</body>
+</html>
+</body>
+</html>
